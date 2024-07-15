@@ -36,7 +36,6 @@ roomlvl=10 #room level value
 costitem1=30 #cost of item 1
 costitem2=40 #cost of item 2
 costitem3=50 #cost of item 3
-pickedclass=0
 #Defs BELOW
 #SAVE FILE HERE COPIED FROM GOOGLE BARD
 def create_save_file():
@@ -294,73 +293,64 @@ if loadgame=="2":
         costitem2 = int(costitem2)
         costitem3 = int(costitem3)
         weph = int(weph)
-    pickedclass = 1
 elif loadgame=="1":
     charn=input("What is your character's name? ")
     print("Select your class!")
     cls=input("1. Fighter\n2. Wizard\n3. Barbarian\n")
-    while pickedclass = 0:
-        if cls == "2":
-            clsn="Wizard"
-            #stats
-            clshp=10 # class hp min
-            hpmax=clshp #class hp max for level 1
-            hp=hpmax #hp being set to hp max this value is only here to be edited when I figure out item and equipment slots
-            clsm=20 #class mana and spell points 
-            manamax=clsm #setting the class mana to max mana again incase I need to edit it with equipment
-            mana=manamax #setting mana = to maxmana
-            #weapon
-            wepl=2 #lowest roll the attack can hit
-            weph=4 #highest roll the attack can hit
-            wepn="Wand" #weapon name for dialog
-            #block
-            blkl=0 #block value low
-            blkm=1 #block value max
-            search=3 #base search skill
-            sense="arcane senses" #name of search skill for dialog
-            pickedclass = 1
-        if cls == "1":
-            clsn="Fighter"
-            #stats
-            clshp=20
-            hpmax=clshp
-            hp=hpmax
-            clsm=10
-            manamax=clsm
-            mana=manamax
-            #weapon
-            wepl=1
-            weph=7
-            wepn="Sword"
-            #block
-            blkl=0
-            blkm=5
-            search=2
-            sense="intuition"
-            pickedclass = 1
-        if cls == "3":
-            clsn="Barbarian"
-            #stats
-            clshp=15
-            hpmax=clshp
-            hp=hpmax
-            clsm=0
-            manamax=clsm
-            mana=manamax
-            #weapon
-            wepl=0
-            weph=10
-            wepn="Axe"    
-            #block
-            blkl=0
-            blkm=3
-            search=1
-            sense="dumbluck"
-            pickedclass = 1
-        else:
-            print("That is not a valid class choice please choose a valid class.")
-            print("Select your class!")
-            cls=input("1. Fighter\n2. Wizard\n3. Barbarian\n")
+    if cls == "2":
+        clsn="Wizard"
+        #stats
+        clshp=10 # class hp min
+        hpmax=clshp #class hp max for level 1
+        hp=hpmax #hp being set to hp max this value is only here to be edited when I figure out item and equipment slots
+        clsm=20 #class mana and spell points 
+        manamax=clsm #setting the class mana to max mana again incase I need to edit it with equipment
+        mana=manamax #setting mana = to maxmana
+        #weapon
+        wepl=2 #lowest roll the attack can hit
+        weph=4 #highest roll the attack can hit
+        wepn="Wand" #weapon name for dialog
+        #block
+        blkl=0 #block value low
+        blkm=1 #block value max
+        search=3 #base search skill
+        sense="arcane senses" #name of search skill for dialog
+    if cls == "1":
+        clsn="Fighter"
+        #stats
+        clshp=20
+        hpmax=clshp
+        hp=hpmax
+        clsm=10
+        manamax=clsm
+        mana=manamax
+        #weapon
+        wepl=1
+        weph=7
+        wepn="Sword"
+        #block
+        blkl=0
+        blkm=5
+        search=2
+        sense="intuition"
+    if cls == "3":
+        clsn="Barbarian"
+        #stats
+        clshp=15
+        hpmax=clshp
+        hp=hpmax
+        clsm=0
+        manamax=clsm
+        mana=manamax
+        #weapon
+        wepl=0
+        weph=10
+        wepn="Axe"    
+        #block
+        blkl=0
+        blkm=3
+        search=1
+        sense="dumbluck"
 if loadgame=="2":
     clear()
     cont="2"
