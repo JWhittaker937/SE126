@@ -1,0 +1,22 @@
+#Name Jared Whittaker 
+#Lab # 1
+#Date 07/17/2024
+#Lab Description Program to determine the occupancy max and population difference for meetings
+#Variable Dictionary-------------------------------------------------------
+meetname=""#This is the meeting name.
+roommax=0#The Max occupancy for the room.
+popattend=0#The expected attendance of the meeting.
+popdif=0#The Difference between the population.
+answer="y"#while loop for another meeting.
+#Imports-------------------------------------------------------------------
+#Functions-----------------------------------------------------------------
+def difference(popattend,roommax):
+    popdif=roommax-popattend
+#Main Code-----------------------------------------------------------------
+while answer.lower()=="y":
+    meetname=input("What is the name for your meeting?")
+    roommax=input("What is the max occupancy of the room?")
+    popattend=input("What is the expected attendance of the meeting?")
+    
+
+
