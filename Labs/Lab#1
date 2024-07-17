@@ -16,12 +16,12 @@ from os import system,name
 def difference(popattend,roommax):
     popdif=roommax-popattend
     return popdif
-def clear():
+def clear():#clear for readability
     if name=="nt":
         _=system("cls")
     else:
         _=system("clear")
-def decision(response):
+def decision(response): #checking user response for errors
     while response.lower() != "y" and response.lower() != "n":
         print("That is an Invalid selection")
         response=input("Would you like to check another room? [Y/N]:")
@@ -40,7 +40,6 @@ while answer.lower()=="y":
         cont=input("Would you like to check another room? [Y/N]")
         answer=decision(cont)
         clear()
-        
     if popdif == 0:
         popdif=(popdif)
         print(f"You are currently at capacity.")
