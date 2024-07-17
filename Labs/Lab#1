@@ -8,12 +8,18 @@ roommax=0#The Max occupancy for the room.
 popattend=0#The expected attendance of the meeting.
 popdif=0#The Difference between the population.
 answer="y"#while loop for another meeting.
-cont=0 #pause for person to read
 #Imports-------------------------------------------------------------------
+import sys
+from os import system,name
 #Functions-----------------------------------------------------------------
 def difference(popattend,roommax):
     popdif=roommax-popattend
     return popdif
+def clear():
+    if name=="nt":
+        _=system("cls")
+    else:
+        _=system("clear")
 #Main Code-----------------------------------------------------------------
 while answer.lower()=="y":
     meetname=input("What is the name for your meeting?")
@@ -23,22 +29,19 @@ while answer.lower()=="y":
     if popdif < 0:
         popdif=(popdif)
         print(f"You are currently over capacity by {abs(popdif):.0f}.")
-        cont=input("Press enter to continue.")
         answer=input("Would you like to check another room? [Y/N]:")
+        clear()
     if popdif == 0:
         popdif=(popdif)
         print(f"You are currently at capacity.")
-        cont=input("Press enter to continue.")
         answer=input("Would you like to check another room? [Y/N]:")
+        clear()
     if popdif > 0:
         popdif=abs(popdif)
         print(f"You are currently under capacity by {popdif:.0f} people.")
-        cont=input("Press enter to continue.")
         answer=input("Would you like to check another room? [Y/N]:")
+        clear()
     while answer.lower() != "y" and answer.lower() != "n":
         print("Invalid entry")
         answer=input("Would you like to check another room? [Y/N]:")
 print("THANK YOU FOR USING JAREDS MAGIC ROOM CHECKING ADDING MATH MACHINE CODE WOOOOOOO STAY IN SCHOOL!")
-
-
-
