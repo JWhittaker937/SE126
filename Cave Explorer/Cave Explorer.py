@@ -37,7 +37,7 @@ costitem1=30 #cost of item 1
 costitem2=40 #cost of item 2
 costitem3=50 #cost of item 3
 #Defs BELOW
-#SAVE FILE HERE COPIED FROM GOOGLE BARD
+#SAVE FILE HERE
 def create_save_file():
     with open("save_data.csv", "w", newline='') as f:
         writer = csv.writer(f)
