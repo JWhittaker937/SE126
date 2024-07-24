@@ -43,15 +43,10 @@ with open("Labs/Lab2 data/lab2b.csv","r") as f:
             ossystem=record[6]
             yearofsale=record[7]
             disksize2=("NONE")
-            print(f"{desktopor:7}|{manname:7}| CPU:{cpuname:2}| RAM:{ramcount:3}GB| Disk Count:{diskcount:2}| Disk1: {disksize1:5}| Disk2: {disksize2:5}|OS: {ossystem:3}| Year: 20{yearofsale:2}|")
         else:
             disksize1=(record[4])
             disksize2=(record[6])
             ossystem=(record[7])
             yearofsale=(record[8])
-            print(f"{desktopor:7}|{manname:7}| CPU:{cpuname:2}| RAM:{ramcount:3}GB| Disk Count:{diskcount:2}| Disk1: {disksize1:5}| Disk2: {disksize2:5}|OS: {ossystem:3}| Year: 20{yearofsale:2}|")
-    print(f"Total computers:{totalrecords}")
-
-
-
-
+        print(f"{desktopor:7}|{manname:7}| CPU:{cpuname:2}| RAM:{ramcount:3}GB| Disk Count:{diskcount:2}| Disk1: {disksize1:5}| Disk2: {disksize2:5}|OS: {ossystem:3}| Year: 20{yearofsale:2}|")
+    print(f"Total computers|{totalrecords}")

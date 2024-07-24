@@ -21,4 +21,4 @@ with open("Labs/Lab2 data/lab2a.csv") as file:
             popdiff=popdiff*-1
             print(f"{record[0]:20} IS OVER CAPACITY BY {popdiff:5} PEOPLE.")
             noncompliant=totalrecords-compliantrecords
-    print(f"Total Records:    {totalrecords:5}\nCompliant Records:{compliantrecords:5}") #This outputs all the information 
+    print(f"Total Records:      {totalrecords:5}\nCompliant Records:  {compliantrecords:5}\nOver Capacity rooms:{noncompliant:5}") #This outputs all the information 
