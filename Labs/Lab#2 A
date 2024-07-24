@@ -10,7 +10,7 @@ compliantrecords=0 #this is the compliant records
 import csv
 #Functions--------------------------------------------------
 #Main Code--------------------------------------------------
-with open("Labs/Lab2/lab2a.csv") as file:
+with open("Labs/Lab2 data/lab2a.csv") as file:
     data=csv.reader(file)
     for record in data:
         popdiff=int(record[1])-int(record[2])
