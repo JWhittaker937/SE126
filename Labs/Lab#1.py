@@ -26,7 +26,7 @@ def decision(response): #checking user response for errors
         print("That is an Invalid selection")
         response=input("Would you like to check another room? [Y/N]:")
         
-        return response
+    return response
 
 #Main Code-----------------------------------------------------------------
 while answer.lower()=="y":

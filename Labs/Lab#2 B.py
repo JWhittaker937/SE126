@@ -22,7 +22,6 @@ with open("Labs/Lab2 data/lab2b.csv","r") as f:
     reader=csv.reader(f)
     for record in reader:
         totalrecords+=1
-        #print(record)
         desktopor=str(record[0])
         if desktopor.lower()==("d"):
             desktopor="Desktop"
