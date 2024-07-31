@@ -1,0 +1,9 @@
+Nate,26,maroon,crow
+Ron,43,blue,elephant
+Steph,39,red,dog
+Joe,25,red,lion
+Berta,28,red,dolphin
+Ethan,19,orange,monkey
+Jacob,19,white,wolf
+Jess,26,black,dog
+Katie,31,black,elephant
