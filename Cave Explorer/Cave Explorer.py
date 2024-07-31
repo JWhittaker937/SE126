@@ -149,6 +149,7 @@ traph=5 #highest value the trap can roll for its hidden stat
 trapdmgl=0 #lowest amount of damage the trap can do
 trapdmgh=3 #highest amount of damage the trap can do
 trpxp=10 #xp for finding the trap
+##################################################################################################################
 def trapdmgroll(): #rolling trap damage def
     trapdmg=random.randint(trapdmgl,trapdmgh)
     return trapdmg
@@ -244,37 +245,38 @@ roommodtable= {
     30:"has padded walls. Maybe its where you belong.",
     31:"another adventurer you wave exictedly! Oh its just a mirror...",
     32:"is coded in Python!",
-    33:"",
-    34:"",
-    35:"",
-    36:"",
-    37:"",
-    38:"",
-    39:"",
-    40:"",
-    41:"",
-    42:"",
-    43:"",
-    44:"",
-    45:"",
-    46:"",
-    47:"",
-    48:"",
-    49:"",
-    50:"",
-    51:"",
-    52:"",
-    53:"",
-    55:"",
-    56:"",
-    57:"",
-    58:"",
-    59:"",
-    60:"",
+    33:"if it was to ever leave you.",
+    34:"it wouldn't be in summer",
+    35:"IS FILLED WITH RADISHES!!!",
+    36:"is dark. Only a flickering fire lights the walls.",
+    37:"echos a steady drip drip drip.",
+    38:"is not your biggest fan.",
+    39:"has a favorite flower it is a lily.",
+    40:"has little time and appears to be rushing you.",
+    41:"is filled with panicking people.",
+    42:"appears to be a disco.",
+    43:"is entirely in black and white.",
+    44:"has a chair seemingly nailed to the ceiling.",
+    45:"so many clowns.",
+    46:"won't stop believing.",
+    47:"is holding onto a feeling.",
+    48:"was born to run.",
+    49:"down rocky cliffs.",
+    50:"is the next lich king.",
+    51:"try it for free at room.com rated T for teen.",
+    52:"8008135",
+    53:"('''\(-_-)/''')",
+    54:"ERROR FUNNY NOT FOUND",
+    55:"is tired of writing nonsense.",
+    56:":D",
+    57:":P",
+    58:"D:",
+    59:":)",
+    60:":(",
     }
 def roommod(): #calling a random room modification
-    return roommodtable[random.randint(0,31)]
-#Character sheet and start of game.
+    return roommodtable[random.randint(0,60)]
+#Character sheet and start of game.#########################################################################################
 #char sheet
 print("--------------------")
 print("--------CAVE--------")
@@ -289,6 +291,26 @@ print("--JARED--WHITTAKER--")
 print("--------------------")
 loadgame=input()
 clear()
+if loadgame=="69":
+    charn="Tester"
+    cls=1
+    clsn="Tester"
+    #stats
+    clshp=20000
+    hpmax=clshp
+    hp=hpmax
+    clsm=10
+    manamax=clsm
+    mana=manamax
+    #weapon
+    wepl=1
+    weph=7
+    wepn="BAN HAMMER"
+    #block
+    blkl=0
+    blkm=5
+    search=2
+    sense="Dev"
 if loadgame=="2":
     with open("save_data.csv", "r") as f:
         reader = csv.reader(f)
@@ -521,10 +543,9 @@ while gameon=="1":
                     roomcon=1
                 if act1=="4":
                     print("You make your way out of the cave back to town")
-                    cont="2"
-                    if cont=="2":
-                        break
+                    time.sleep(2)
                     roomcon=1
+                    cont="2"
 #END OF EMPTY ROOM------------------------
 #START OF GOB FIGHT ROOM-----------
         if roomroll() == "goblin":
@@ -723,8 +744,7 @@ while gameon=="1":
                         clear()
                         stats()#displays stats then lets player read before moving on
                         pause=input("Press Enter to continue")
-                        clear()
-                
+                        clear()  
                 print("---------------------------------------")
                 npcloot=(loot())#rolling NPC LOOT
                 print("The ",npcn," falls to the floor dead!")
@@ -734,11 +754,12 @@ while gameon=="1":
                 print()
                 xp=npcxp+xp
                 coins=coins+npcloot
-                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
-                if cont== "2":#CURRENT BUG player sometimes wont exit the dungeon when trying to 
-                    break#but will be able to exit with no issues AFTER they finish another room
                 npcalive=0
-            
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
 #END OF GOB FIGHT ROOM---------
 #START OF TRAP ROOM---------------
         if roomroll()=="trap":
@@ -829,15 +850,15 @@ while gameon=="1":
             #INPUT NPC ABOVE
             while npcalive==1:
                 while npchp >0:
-                    if hp <=0:
+                    if hp <=0: #struggled to get this death to function
                         print("You have died!")
                         gameover()
                         pause=input()
                         cont=-10
                         break
-                    print("---------------------------------------")
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
                     print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
-                    print("---------------------------------------")
+                    print("---------------------------------------")#shows the npc and your character stats
                     print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
                     print("---------------------------------------")
                     print("What would you like to do?")
@@ -846,20 +867,20 @@ while gameon=="1":
                     print()
                     if act1 == "1":
                         clear()
-                        dmg=random.randint(wepl,weph)
+                        dmg=random.randint(wepl,weph)#rolling damage values
                         print("You swing your ",wepn," striking the ",npcn," for ",dmg)
                         npchp=npchp-dmg
-                        if stund==0:
+                        if stund==0:#checking if NPC is stunned
                             npcdmg=random.randint(npcwepl,npcweph)
                             print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                             hp=hp-npcdmg
-                        if stund!=0:
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
                     if act1 =="2":
-                        clear()
-                        print(charn,"Attempts to block!")
-                        if stund==0:
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
                             blk=random.randint(blkl,blkm)
                             print("The ",npcn," swings at you")
                             npcdmg=random.randint(npcwepl,npcweph)
@@ -872,7 +893,7 @@ while gameon=="1":
                         if stund!=0:
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
-                    if act1 =="3":
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
                         clear()
                         if cls=="2":
                             print("-------------------------------------")
@@ -883,15 +904,15 @@ while gameon=="1":
                             cast=input()
                             clear()
                             if cast=="1":
-                                if mana >= 3:
+                                if mana >= 3:# cost of spell
                                     spln="fireball"
-                                    spldmgl=1
-                                    spldmgh=10
-                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
                                     print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    mana=mana-3
-                                    if stund==0:
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -899,20 +920,20 @@ while gameon=="1":
                                         print("The",npcn," is stunned for this turn!")
                                         stund=stund-1
                                 else:
-                                    nomana()
+                                    nomana()#NOT NUFF MANA NERD
                             elif cast=="2":
                                 clear()
-                                if mana >= 5:
-                                    heall=2
-                                    healh=8
-                                    heala=random.randint(heall,healh)
-                                    if hp + heala > hpmax:
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
                                         hp = hpmax
                                     else:
                                         hp = hp + heala
                                     print("You restore ",heala,"HP.")
                                     mana=mana-5
-                                    if stund==0:
+                                    if stund==0:#checking if NPC is stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -951,7 +972,7 @@ while gameon=="1":
                                    spldmgl=2
                                    spldmgh=4
                                    spldmg=random.randint(spldmgl,spldmgh)
-                                   stund=random.randint(0,1)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
                                    mana=mana-2
                                    if stund==1:
                                        print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
@@ -995,7 +1016,7 @@ while gameon=="1":
                                     spldmgh=4
                                     spldmg=random.randint(spldmgl,spldmgh)
                                     if spldmg >= 3:
-                                        hp=hp+10,hpmax
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
                                         print("You cast ",spln," hitting the",npcn,"for",spldmg,)
                                         npchp=npchp-spldmg
                                     if stund==0:
@@ -1007,11 +1028,12 @@ while gameon=="1":
                                         stund=stund-1
                     if act1 == "4":
                         clear()
-                        stats()
+                        stats()#displays stats then lets player read before moving on
                         pause=input("Press Enter to continue")
                         clear()
+                
                 print("---------------------------------------")
-                npcloot=(loot())
+                npcloot=(loot())#rolling NPC LOOT
                 print("The ",npcn," falls to the floor dead!")
                 print("You loot ",npcloot,"silver pieces")
                 print("You gain ",npcxp,"XP!")
@@ -1019,252 +1041,12 @@ while gameon=="1":
                 print()
                 xp=npcxp+xp
                 coins=coins+npcloot
-                cont=input("1. Continue, 2. Leave")
-                if cont== "2":
-                    break
                 npcalive=0
-#END OF orc FIGHT ROOM
-#START OF sirein FIGHT ROOM
-        if roomroll() == "sirein":
-            clear()
-            sirein()
-            print("The room ",roommod())
-            npchp=sirhp
-            npchpmax=sirhpmax
-            npcwepn="her claws"
-            npcn="Sirein"
-            npcweph=sirweph
-            npcwepl=sirwepl
-            npcxp=sirxp
-            stund=0
-            npcalive=1
-            #INPUT NPC ABOVE
-            while npcalive==1:
-                while npchp >0:
-                    if hp <=0:
-                        print("You have died!")
-                        gameover()
-                        pause=input()
-                        cont=-10
-                        break
-                    print("---------------------------------------")
-                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
-                    print("---------------------------------------")
-                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
-                    print("---------------------------------------")
-                    print("What would you like to do?")
-                    print()
-                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
-                    print()
-                    if act1 == "1":
-                        clear()
-                        dmg=random.randint(wepl,weph)
-                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
-                        npchp=npchp-dmg
-                        if stund==0:
-                            npcdmg=random.randint(npcwepl,npcweph)
-                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                            hp=hp-npcdmg
-                        if stund!=0:
-                            print("The",npcn," is stunned for this turn!")
-                            stund=stund-1
-                    if act1 =="2":
-                        clear()
-                        print(charn,"Attempts to block!")
-                        if stund==0:
-                            blk=random.randint(blkl,blkm)
-                            print("The ",npcn," swings at you")
-                            npcdmg=random.randint(npcwepl,npcweph)
-                            pbdm=npcdmg-blk
-                            if pbdm <=0:
-                                print("You block all of the attack!")
-                            else:
-                                print("You resist the attack taking",pbdm,"damage")
-                                hp=hp-pbdm
-                        if stund!=0:
-                            print("The",npcn," is stunned for this turn!")
-                            stund=stund-1
-                    if act1 =="3":
-                        clear()
-                        if cls=="2":
-                            print("-------------------------------------")
-                            print("You currently have",mana,"/",manamax," Mana.")
-                            print("What spell would you like to cast?")
-                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
-                            print("---------------------------------------")
-                            cast=input()
-                            clear()
-                            if cast=="1":
-                                if mana >= 3:
-                                    spln="fireball"
-                                    spldmgl=1
-                                    spldmgh=10
-                                    spldmg=random.randint(spldmgl,spldmgh)
-                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    mana=mana-3
-                                    if stund==0:
-                                        npcdmg=random.randint(npcwepl,npcweph)
-                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                                        hp=hp-npcdmg
-                                    if stund!=0:
-                                        print("The",npcn," is stunned for this turn!")
-                                        stund=stund-1
-                                else:
-                                    nomana()
-                            elif cast=="2":
-                                clear()
-                                if mana >= 5:
-                                    heall=2
-                                    healh=8
-                                    heala=random.randint(heall,healh)
-                                    if hp + heala > hpmax:
-                                        hp = hpmax
-                                    else:
-                                        hp = hp + heala
-                                    print("You restore ",heala,"HP.")
-                                    mana=mana-5
-                                    if stund==0:
-                                        npcdmg=random.randint(npcwepl,npcweph)
-                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                                        hp=hp-npcdmg
-                                    if stund!=0:
-                                        print("The",npcn," is stunned for this turn!")
-                                        stund=stund-1
-                                else:
-                                    nomana()
-                        if cls=="1":
-                            print("---------------------------------------")
-                            print("You currently have",mana,"/",manamax," Mana.")
-                            print("What spell would you like to cast?")
-                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
-                            print("---------------------------------------")
-                            cast=input()
-                            clear()
-                            if cast=="1":
-                                if mana >= 1:
-                                    spln="quickslash"
-                                    spldmgl=2
-                                    spldmgh=4
-                                    spldmg=random.randint(spldmgl,spldmgh)
-                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    mana=mana-1
-                                    if stund==0:
-                                        npcdmg=random.randint(npcwepl,npcweph)
-                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                                        hp=hp-npcdmg
-                                    if stund!=0:
-                                        print("The",npcn," is stunned for this turn!")
-                                        stund=stund-1
-                            if cast=="2":
-                                if mana >=2:
-                                   spln="Shield bash"
-                                   spldmgl=2
-                                   spldmgh=4
-                                   spldmg=random.randint(spldmgl,spldmgh)
-                                   stund=random.randint(0,1)
-                                   mana=mana-2
-                                   if stund==1:
-                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
-                                       npchp=npchp-spldmg
-                                   else:
-                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
-                                       npchp=npchp-spldmg
-                                       npcdmg=random.randint(npcwepl,npcweph)
-                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                                       hp=hp-npcdmg
-                        if cls=="3":
-                            print("---------------------------------------")
-                            print("You currently have",hp,"/",hpmax," HP.")
-                            print("What spell would you like to cast?")
-                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
-                            print("---------------------------------------")
-                            cast=input()
-                            if cast=="1":
-                                if hp>5:
-                                    hp=hp-5
-                                    spln="Bloody Swipe"
-                                    spldmgl=3
-                                    spldmgh=18
-                                    spldmg=random.randint(spldmgl,spldmgh)
-                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    if stund==0:
-                                        npcdmg=random.randint(npcwepl,npcweph)
-                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                                        hp=hp-npcdmg
-                                    if stund!=0:
-                                        print("The",npcn," is stunned for this turn!")
-                                        stund=stund-1
-                                else:
-                                    print("NOT NUFF HP")
-                            if cast=="2":
-                                if hp>5:
-                                    hp=hp-5
-                                    spln="Bloodpact"
-                                    spldmgl=0
-                                    spldmgh=4
-                                    spldmg=random.randint(spldmgl,spldmgh)
-                                    if spldmg >= 3:
-                                        hp=hp+10,hpmax
-                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                        npchp=npchp-spldmg
-                                    if stund==0:
-                                        npcdmg=random.randint(npcwepl,npcweph)
-                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
-                                        hp=hp-npcdmg
-                                    if stund!=0:
-                                        print("The",npcn," is stunned for this turn!")
-                                        stund=stund-1
-                    if act1 == "4":
-                        clear()
-                        stats()
-                        pause=input("Press Enter to continue")
-                        clear()
-                print("---------------------------------------")
-                npcloot=(loot())
-                print("The ",npcn," falls to the floor dead!")
-                print("You loot ",npcloot,"silver pieces")
-                print("You gain ",npcxp,"XP!")
-                print("Do you continue deeper or leave for the town?")
-                print()
-                xp=npcxp+xp
-                coins=coins+npcloot
-                cont=input("1. Continue, 2. Leave")
-                npcalive=0
-#END OF sirein FIGHT ROOM
-#START OF Chest room
-        if roomroll()=="chest":
-            roomcon=0
-            clear()
-            chest()
-            print("The room ",roommod())
-            chestvalue=(chestloot())#rolling the value in the chest
-            print()
-            chestopened=0
-            while roomcon==0:
-                act1=input("What do you do?\n1. Search the chest! 2. Stats \n3. Venture Deeper    4. Leave Dungeon")
-                if act1=="1":
-                    if chestopened==0:
-                        clear()#if the chest wasnt already openned letting you open and loot it
-                        print("You search the chest and find",chestvalue,"coins!")
-                        coins=coins+chestvalue
-                        chestopened=1#setting the chest to opened
-                    else:
-                        clear()
-                        print("You have already looted this chest")#if you try to search an opened chest
-                if act1=="2":
-                    clear()
-                    stats()#displays stats as before
-                if act1=="3":
-                    print("You venture deeper into the cave!")
-                    roomcon=1#lets you leave the room
-                    cont="1"
-                if act1=="4":
-                    print("You make your way out of the cave back to town")
-                    roomcon=1#lets you leave the room
-                    cont="2"
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
 #skeleton roll
         if roomroll() == "skeletonw":   
             clear()
@@ -1280,17 +1062,18 @@ while gameon=="1":
             stund=0
             npcalive=1
             #INPUT NPC ABOVE
+            #INPUT NPC ABOVE
             while npcalive==1:
                 while npchp >0:
-                    if hp <=0:
+                    if hp <=0: #struggled to get this death to function
                         print("You have died!")
                         gameover()
                         pause=input()
                         cont=-10
                         break
-                    print("---------------------------------------")
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
                     print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
-                    print("---------------------------------------")
+                    print("---------------------------------------")#shows the npc and your character stats
                     print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
                     print("---------------------------------------")
                     print("What would you like to do?")
@@ -1299,20 +1082,20 @@ while gameon=="1":
                     print()
                     if act1 == "1":
                         clear()
-                        dmg=random.randint(wepl,weph)
+                        dmg=random.randint(wepl,weph)#rolling damage values
                         print("You swing your ",wepn," striking the ",npcn," for ",dmg)
                         npchp=npchp-dmg
-                        if stund==0:
+                        if stund==0:#checking if NPC is stunned
                             npcdmg=random.randint(npcwepl,npcweph)
                             print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                             hp=hp-npcdmg
-                        if stund!=0:
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
                     if act1 =="2":
-                        clear()
-                        print(charn,"Attempts to block!")
-                        if stund==0:
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
                             blk=random.randint(blkl,blkm)
                             print("The ",npcn," swings at you")
                             npcdmg=random.randint(npcwepl,npcweph)
@@ -1325,7 +1108,7 @@ while gameon=="1":
                         if stund!=0:
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
-                    if act1 =="3":
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
                         clear()
                         if cls=="2":
                             print("-------------------------------------")
@@ -1336,15 +1119,15 @@ while gameon=="1":
                             cast=input()
                             clear()
                             if cast=="1":
-                                if mana >= 3:
+                                if mana >= 3:# cost of spell
                                     spln="fireball"
-                                    spldmgl=1
-                                    spldmgh=10
-                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
                                     print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    mana=mana-3
-                                    if stund==0:
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -1352,20 +1135,20 @@ while gameon=="1":
                                         print("The",npcn," is stunned for this turn!")
                                         stund=stund-1
                                 else:
-                                    nomana()
+                                    nomana()#NOT NUFF MANA NERD
                             elif cast=="2":
                                 clear()
-                                if mana >= 5:
-                                    heall=2
-                                    healh=8
-                                    heala=random.randint(heall,healh)
-                                    if hp + heala > hpmax:
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
                                         hp = hpmax
                                     else:
                                         hp = hp + heala
                                     print("You restore ",heala,"HP.")
                                     mana=mana-5
-                                    if stund==0:
+                                    if stund==0:#checking if NPC is stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -1404,7 +1187,7 @@ while gameon=="1":
                                    spldmgl=2
                                    spldmgh=4
                                    spldmg=random.randint(spldmgl,spldmgh)
-                                   stund=random.randint(0,1)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
                                    mana=mana-2
                                    if stund==1:
                                        print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
@@ -1448,7 +1231,7 @@ while gameon=="1":
                                     spldmgh=4
                                     spldmg=random.randint(spldmgl,spldmgh)
                                     if spldmg >= 3:
-                                        hp=hp+10,hpmax
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
                                         print("You cast ",spln," hitting the",npcn,"for",spldmg,)
                                         npchp=npchp-spldmg
                                     if stund==0:
@@ -1460,11 +1243,12 @@ while gameon=="1":
                                         stund=stund-1
                     if act1 == "4":
                         clear()
-                        stats()
+                        stats()#displays stats then lets player read before moving on
                         pause=input("Press Enter to continue")
                         clear()
+                
                 print("---------------------------------------")
-                npcloot=(loot())
+                npcloot=(loot())#rolling NPC LOOT
                 print("The ",npcn," falls to the floor dead!")
                 print("You loot ",npcloot,"silver pieces")
                 print("You gain ",npcxp,"XP!")
@@ -1472,10 +1256,12 @@ while gameon=="1":
                 print()
                 xp=npcxp+xp
                 coins=coins+npcloot
-                cont=input("1. Continue, 2. Leave")
-                if cont== "2":
-                    break
                 npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
 #end of skeletonroom
 #start of dragon room
         if roomroll() == "dragon":   
@@ -1494,15 +1280,15 @@ while gameon=="1":
             #INPUT NPC ABOVE
             while npcalive==1:
                 while npchp >0:
-                    if hp <=0:
+                    if hp <=0: #struggled to get this death to function
                         print("You have died!")
                         gameover()
                         pause=input()
                         cont=-10
                         break
-                    print("---------------------------------------")
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
                     print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
-                    print("---------------------------------------")
+                    print("---------------------------------------")#shows the npc and your character stats
                     print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
                     print("---------------------------------------")
                     print("What would you like to do?")
@@ -1511,20 +1297,20 @@ while gameon=="1":
                     print()
                     if act1 == "1":
                         clear()
-                        dmg=random.randint(wepl,weph)
+                        dmg=random.randint(wepl,weph)#rolling damage values
                         print("You swing your ",wepn," striking the ",npcn," for ",dmg)
                         npchp=npchp-dmg
-                        if stund==0:
+                        if stund==0:#checking if NPC is stunned
                             npcdmg=random.randint(npcwepl,npcweph)
                             print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                             hp=hp-npcdmg
-                        if stund!=0:
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
                     if act1 =="2":
-                        clear()
-                        print(charn,"Attempts to block!")
-                        if stund==0:
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
                             blk=random.randint(blkl,blkm)
                             print("The ",npcn," swings at you")
                             npcdmg=random.randint(npcwepl,npcweph)
@@ -1537,7 +1323,7 @@ while gameon=="1":
                         if stund!=0:
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
-                    if act1 =="3":
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
                         clear()
                         if cls=="2":
                             print("-------------------------------------")
@@ -1548,15 +1334,15 @@ while gameon=="1":
                             cast=input()
                             clear()
                             if cast=="1":
-                                if mana >= 3:
+                                if mana >= 3:# cost of spell
                                     spln="fireball"
-                                    spldmgl=1
-                                    spldmgh=10
-                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
                                     print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    mana=mana-3
-                                    if stund==0:
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -1564,20 +1350,20 @@ while gameon=="1":
                                         print("The",npcn," is stunned for this turn!")
                                         stund=stund-1
                                 else:
-                                    nomana()
+                                    nomana()#NOT NUFF MANA NERD
                             elif cast=="2":
                                 clear()
-                                if mana >= 5:
-                                    heall=2
-                                    healh=8
-                                    heala=random.randint(heall,healh)
-                                    if hp + heala > hpmax:
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
                                         hp = hpmax
                                     else:
                                         hp = hp + heala
                                     print("You restore ",heala,"HP.")
                                     mana=mana-5
-                                    if stund==0:
+                                    if stund==0:#checking if NPC is stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -1616,7 +1402,7 @@ while gameon=="1":
                                    spldmgl=2
                                    spldmgh=4
                                    spldmg=random.randint(spldmgl,spldmgh)
-                                   stund=random.randint(0,1)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
                                    mana=mana-2
                                    if stund==1:
                                        print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
@@ -1660,7 +1446,7 @@ while gameon=="1":
                                     spldmgh=4
                                     spldmg=random.randint(spldmgl,spldmgh)
                                     if spldmg >= 3:
-                                        hp=hp+10,hpmax
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
                                         print("You cast ",spln," hitting the",npcn,"for",spldmg,)
                                         npchp=npchp-spldmg
                                     if stund==0:
@@ -1672,11 +1458,12 @@ while gameon=="1":
                                         stund=stund-1
                     if act1 == "4":
                         clear()
-                        stats()
+                        stats()#displays stats then lets player read before moving on
                         pause=input("Press Enter to continue")
                         clear()
+                
                 print("---------------------------------------")
-                npcloot=(loot())
+                npcloot=(loot())#rolling NPC LOOT
                 print("The ",npcn," falls to the floor dead!")
                 print("You loot ",npcloot,"silver pieces")
                 print("You gain ",npcxp,"XP!")
@@ -1684,10 +1471,12 @@ while gameon=="1":
                 print()
                 xp=npcxp+xp
                 coins=coins+npcloot
-                cont=input("1. Continue, 2. Leave")
-                if cont== "2":
-                    break
                 npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
 #end of dragon room
 #start of lich room
         if roomroll() == "lich":   
@@ -1706,15 +1495,15 @@ while gameon=="1":
             #INPUT NPC ABOVE
             while npcalive==1:
                 while npchp >0:
-                    if hp <=0:
+                    if hp <=0: #struggled to get this death to function
                         print("You have died!")
                         gameover()
                         pause=input()
                         cont=-10
                         break
-                    print("---------------------------------------")
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
                     print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
-                    print("---------------------------------------")
+                    print("---------------------------------------")#shows the npc and your character stats
                     print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
                     print("---------------------------------------")
                     print("What would you like to do?")
@@ -1723,20 +1512,20 @@ while gameon=="1":
                     print()
                     if act1 == "1":
                         clear()
-                        dmg=random.randint(wepl,weph)
+                        dmg=random.randint(wepl,weph)#rolling damage values
                         print("You swing your ",wepn," striking the ",npcn," for ",dmg)
                         npchp=npchp-dmg
-                        if stund==0:
+                        if stund==0:#checking if NPC is stunned
                             npcdmg=random.randint(npcwepl,npcweph)
                             print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                             hp=hp-npcdmg
-                        if stund!=0:
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
                     if act1 =="2":
-                        clear()
-                        print(charn,"Attempts to block!")
-                        if stund==0:
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
                             blk=random.randint(blkl,blkm)
                             print("The ",npcn," swings at you")
                             npcdmg=random.randint(npcwepl,npcweph)
@@ -1749,7 +1538,7 @@ while gameon=="1":
                         if stund!=0:
                             print("The",npcn," is stunned for this turn!")
                             stund=stund-1
-                    if act1 =="3":
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
                         clear()
                         if cls=="2":
                             print("-------------------------------------")
@@ -1760,15 +1549,15 @@ while gameon=="1":
                             cast=input()
                             clear()
                             if cast=="1":
-                                if mana >= 3:
+                                if mana >= 3:# cost of spell
                                     spln="fireball"
-                                    spldmgl=1
-                                    spldmgh=10
-                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
                                     print("You cast ",spln," hitting the",npcn,"for",spldmg,)
-                                    npchp=npchp-spldmg
-                                    mana=mana-3
-                                    if stund==0:
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -1776,20 +1565,20 @@ while gameon=="1":
                                         print("The",npcn," is stunned for this turn!")
                                         stund=stund-1
                                 else:
-                                    nomana()
+                                    nomana()#NOT NUFF MANA NERD
                             elif cast=="2":
                                 clear()
-                                if mana >= 5:
-                                    heall=2
-                                    healh=8
-                                    heala=random.randint(heall,healh)
-                                    if hp + heala > hpmax:
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
                                         hp = hpmax
                                     else:
                                         hp = hp + heala
                                     print("You restore ",heala,"HP.")
                                     mana=mana-5
-                                    if stund==0:
+                                    if stund==0:#checking if NPC is stunned
                                         npcdmg=random.randint(npcwepl,npcweph)
                                         print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
                                         hp=hp-npcdmg
@@ -1828,7 +1617,7 @@ while gameon=="1":
                                    spldmgl=2
                                    spldmgh=4
                                    spldmg=random.randint(spldmgl,spldmgh)
-                                   stund=random.randint(0,1)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
                                    mana=mana-2
                                    if stund==1:
                                        print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
@@ -1872,7 +1661,7 @@ while gameon=="1":
                                     spldmgh=4
                                     spldmg=random.randint(spldmgl,spldmgh)
                                     if spldmg >= 3:
-                                        hp=hp+10,hpmax
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
                                         print("You cast ",spln," hitting the",npcn,"for",spldmg,)
                                         npchp=npchp-spldmg
                                     if stund==0:
@@ -1884,11 +1673,12 @@ while gameon=="1":
                                         stund=stund-1
                     if act1 == "4":
                         clear()
-                        stats()
+                        stats()#displays stats then lets player read before moving on
                         pause=input("Press Enter to continue")
                         clear()
+                
                 print("---------------------------------------")
-                npcloot=(loot())
+                npcloot=(loot())#rolling NPC LOOT
                 print("The ",npcn," falls to the floor dead!")
                 print("You loot ",npcloot,"silver pieces")
                 print("You gain ",npcxp,"XP!")
@@ -1896,14 +1686,9 @@ while gameon=="1":
                 print()
                 xp=npcxp+xp
                 coins=coins+npcloot
-                cont=input("1. Continue, 2. Leave")
-                if cont== "2":
-                    break
                 npcalive=0
-#end of lich room
-
-
-
-
-
-
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
