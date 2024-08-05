@@ -52,7 +52,7 @@ for i in range(0,totalrecords):
     agetotal+=int(age[i])
     averageage=agetotal/totalrecords
     print(f"Name: {firstname[i]:10}|Last name: {lastname[i]:15}|Age: {age[i]:3}|Nickname: {nickname[i]:20}|Allegiance: {allegiance[i]:20}|{motto:15}")
-print(f"Total people: {totalrecords}|Average age: {averageage:3.2f}")
+print(f"Total people: {totalrecords}|Average age: {averageage:3.0f}")
 print(f"Allegiance to House Stark:        {housestark:3}|")
 print(f"Allegiance to House Targaryen:    {housetargaryen:3}|")
 print(f"Allegiance to House Baratheon:    {housebaratheon:3}|")
