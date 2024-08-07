@@ -37,6 +37,6 @@ for i in range(0,totalrecords):
         votedcount+=1
 noteligible=totalrecords-allowedtovote
 notregistered=allowedtovote-registeredcount
-notvoted=allowedtovote-votedcount
+notvoted=registeredcount-votedcount
 print(f"Total Records|Eligible Voters|Ineligible|Registered Voters|Not Registered|Voted|Not Voted|")
 print(f"{totalrecords:13}|{allowedtovote:15}|{noteligible:10}|{registeredcount:17}|{notregistered:14}|{votedcount:5}|{notvoted:9}|")
