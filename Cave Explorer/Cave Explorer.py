@@ -43,6 +43,10 @@ def create_save_file():
         writer = csv.writer(f)
         writer.writerow(["charn", "cls", "xp", "xpmax", "hp", "hpmax", "mana", "manamax", "roomlvl", "coins", "costitem1", "costitem2", "costitem3", "weph", "clsn"])
         writer.writerow([charn, cls, xp, xpmax, hp, hpmax, mana, manamax, roomlvl, coins, costitem1, costitem2, costitem3, weph, clsn])
+def update_save_file():
+    with open("save_data.csv", "a", newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow([charn, cls, xp, xpmax, hp, hpmax, mana, manamax, roomlvl, coins, costitem1, costitem2, costitem3, weph, clsn])
 #I AM TRYING TO LEARN THIS SECTION    
 def nomana():
     print("You do not have enough mana to cast this spell")
@@ -289,6 +293,7 @@ print("--------------------")
 print("--BY----------------")
 print("--JARED--WHITTAKER--")
 print("--------------------")
+create_save_file()
 loadgame=input()
 clear()
 if loadgame=="69":
@@ -493,7 +498,7 @@ while gameon=="1":
             cont=-10
             gameover()
             print("Saving game")
-            create_save_file()
+            update_save_file()
             pause=input("Press Enter to continue")
             clear()
             gameon="2"

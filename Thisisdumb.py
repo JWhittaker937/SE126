@@ -1,15 +1,65 @@
+#Name Jared Whittaker
+#Lab # Mid Term lab
+#Date 08/07/2024
+#Lab Description HORRIBLE IDEA to post every animal phylum
+#Variable Dictionary-------------------------------------
+domain=[]
+kingdomEubacteria=[]
+kingomArchaebacteria=[]
+KingdomProtista=[]
+kingdomplantae=[]
+kingdomfungi=[]
+kingdomanimalia=[]
+#kingdomanimalia
+phylumporifera=[]
+phylumcoelenterata=[]
+phylumplatyhelminthes=[]
+phylumnematoda=[]
+phylumannelida=[]
+phylumarthropoda=[]
+phylummollusca=[]
+phylumechinodermata=[]
+phylumhemichordta=[]
+phylumchordata=[]
+#kingdomfungi
+phylumchytridiomycota=[]
+phylumzygomycota=[]
+phylumascomycota=[]
+phylumbasidiomycota=[]
+phylumglomeromycota=[]
+#kingdomplantae
+phylumanthocerotophyta=[]
+phylumbryophyta=[]
+phylumcharophyta=[]
+phylumchorophyta=[]
+phylumcycadophyta=[]
+phylumginkgophyta=[]
+phylumglaucophyta=[]
+phylumgnetophyta=[]
+phylumlycopodiophya=[]
+phylummagnoliophyta=[]
+phylummarchantiophyta=[]
+phylumpinophyta=[]
+phylumpolypodiophyta=[]
+#kingdomproista
+phylumprotozoa=[]
+phylumeuglenophyta=[]
+phylumchrysophyta=[]
+phylumpyrrophyta=[]
+#kingdomarchaebacteria
+phylumeuryarchaeota=[]
+phylumcrenarchaeota=[]
+phylumnanoarcheaeota=[]
+phylumorachaeota=[]
+
+clas=[]
+order=[]
+family=[]
+genus=[]
+species=[]
+#Imports-------------------------------------------------
+import csv
 import random
-shotx=0
-shoty=0
-def shot():
-    shotx=random.randint(1,6)
-    shoty=random.randint(1,4)
-    return shotx,shoty
-map=[
-    ["a1","a2","a3","a4"],
-    ["b1","b2","b3","b4"],
-    ["c1","c2","c3","c4"],
-    ["d1","d2","d3","d4"],
-    ["e1","e2","e3","e4"],
-    ["f1","f2","f3","f4"],
-]
+#Functions-----------------------------------------------
+#Main Code-----------------------------------------------
+print("Hello World")
