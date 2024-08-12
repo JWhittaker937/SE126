@@ -36,8 +36,10 @@ roomlvl=10 #room level value
 costitem1=30 #cost of item 1
 costitem2=40 #cost of item 2
 costitem3=50 #cost of item 3
+roomhistory=[]
+characterjournal=[]
 #Defs BELOW
-#SAVE FILE HERE
+#SAVE FILE HERE have to learn how to search if a file is already made.
 def create_save_file():
     with open("save_data.csv", "w", newline='') as f:
         writer = csv.writer(f)
@@ -129,7 +131,7 @@ sirhpmax=35
 sirwepl=1
 sirweph=5
 sirxp=50
-#Dragon
+#babyDragon
 draghp=100
 draghpmax=100
 dragwepl=0
@@ -147,6 +149,36 @@ lichhpmax=75
 lichwepl=2
 lichweph=8
 lichxp=300
+#Rat
+rathp=5
+rathpmax=5
+ratwepl=0
+ratweph=2
+ratxp=5
+#Spider
+spiderhp=3
+spiderhpmax=3
+spiderwepl=1
+spiderweph=3
+spiderxp=5
+#giantrat
+giantrathp=40
+giantratmaxhp=40
+giantratwepl=0
+giantratweph=2
+giantratxp=30
+#mimic
+mimichp=30
+mimicmaxhp=30
+mimicwepl=0
+mimicweph=6
+mimicxp=75
+#succubus
+succubushp=100
+succubushpmax=100
+succubuswepl=0
+succubusweph=6
+succubusxp=69
 #TRAP detection
 trapl=0 #lowest value the trap can roll for how well it is hidden
 traph=5 #highest value the trap can roll for its hidden stat
@@ -183,34 +215,60 @@ def skeletonw():
 def lich():
     print("Cold fills the room as you spot the masked figure floating in the center of the room")
     print("The glowing eyes of the lich burn with fury as it lifts a wand ready to fight")
+def rat():
+    print("The telltale skittering and gnawing could only mean one thing. Rats.")
+def giantrat():
+    print("These were supposed to be a myth they aren't real.")
+    print("Surely there is no such thing as a man-sized rat!")
+def mimic():
+    print("You see a chest in the middle of the room.")
+def succubus():
+    print("The room is heavy with the scent of a heavenly perfume.")
+    print("You hear a loud whip crack and a demonic form walks toward you beautiful execpt for the teeth which drip blood.")
 #room generation remember the room level sets the max it can roll and the room level changes as the char levels
+#current allowed rooms empty | chest | goblin | orc | skeletonw | trap | dragon | lich | sirein | giantrat | rat | spider | mimic |
 roomtable = {
     0:"empty",
     1:"empty",
     2:"chest",
-    3:"goblin",
+    3:"rat",
     4:"goblin",
     5:"goblin",
     6:"goblin",
-    7:"orc",
-    8:"orc",
+    7:"rat",
+    8:"rat",
     9:"skeletonw",
     10:"trap",
     11:"goblin",
     12:"trap",
     13:"orc",
-    14:"sirein",
-    15:"dragon",
-    16:"skeletonw",
+    14:"giantrat",
+    15:"rat",
+    16:"mimic",
     17:"skeletonw",
     18:"skeletonw",
-    19:"lich",
+    19:"sirien",
     20:"chest",
     21:"skeletonw",
     22:"skeletonw",
     23:"skeletonw",
     24:"skeletonw",
     25:"lich",
+    26:"giantrat",
+    27:"lich",
+    28:"orc",
+    29:"orc",
+    30:"rat",
+    31:"skeletonw",
+    32:"skeletonw",
+    33:"sirein",
+    34:"dragon",
+    35:"succubus",
+    36:"chest",
+    37:"mimic",
+    38:"sirein",
+    39:"chest",
+    40:"chest",
     }
 def roomroll(): #room roll based on the roomlvl
     return roomtable[random.randint(0,roomlvl)]
@@ -269,7 +327,7 @@ roommodtable= {
     50:"is the next lich king.",
     51:"try it for free at room.com rated T for teen.",
     52:"8008135",
-    53:"('''\(-_-)/''')",
+    53:"('''\\(-_-)/''')",
     54:"ERROR FUNNY NOT FOUND",
     55:"is tired of writing nonsense.",
     56:":D",
@@ -316,6 +374,26 @@ if loadgame=="69":
     blkm=5
     search=2
     sense="Dev"
+if loadgame=="katie":
+    charn="Katie"
+    cls=2
+    clsn="Teacher"
+    #stats
+    clshp=20000
+    hpmax=clshp
+    hp=hpmax
+    clsm=1000
+    manamax=clsm
+    mana=manamax
+    #weapon
+    wepl=1
+    weph=7
+    wepn="BAN HAMMER"
+    #block
+    blkl=0
+    blkm=5
+    search=2
+    sense="Looked at the code."
 if loadgame=="2":
     with open("save_data.csv", "r") as f:
         reader = csv.reader(f)
@@ -1483,6 +1561,1547 @@ while gameon=="1":
                     print("Do you continue deeper or leave for the town?")
                     cont=input("1.Continue, 2. Leave")
 #end of dragon room
+#start of lich room
+        if roomroll() == "lich":   
+            clear()
+            lich()
+            print("The room ",roommod())
+            npchp=lichhp
+            npchpmax=lichhpmax
+            npcwepn="Rotting wand"
+            npcn="Undead Lich"
+            npcweph=lichweph
+            npcwepl=lichwepl
+            npcxp=lichxp
+            stund=0
+            npcalive=1
+            #INPUT NPC ABOVE
+            while npcalive==1:
+                while npchp >0:
+                    if hp <=0: #struggled to get this death to function
+                        print("You have died!")
+                        gameover()
+                        pause=input()
+                        cont=-10
+                        break
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
+                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                    print("---------------------------------------")#shows the npc and your character stats
+                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                    print("---------------------------------------")
+                    print("What would you like to do?")
+                    print()
+                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                    print()
+                    if act1 == "1":
+                        clear()
+                        dmg=random.randint(wepl,weph)#rolling damage values
+                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                        npchp=npchp-dmg
+                        if stund==0:#checking if NPC is stunned
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                            hp=hp-npcdmg
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="2":
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
+                            blk=random.randint(blkl,blkm)
+                            print("The ",npcn," swings at you")
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            pbdm=npcdmg-blk
+                            if pbdm <=0:
+                                print("You block all of the attack!")
+                            else:
+                                print("You resist the attack taking",pbdm,"damage")
+                                hp=hp-pbdm
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
+                        clear()
+                        if cls=="2":
+                            print("-------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 3:# cost of spell
+                                    spln="fireball"
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()#NOT NUFF MANA NERD
+                            elif cast=="2":
+                                clear()
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
+                                        hp = hpmax
+                                    else:
+                                        hp = hp + heala
+                                    print("You restore ",heala,"HP.")
+                                    mana=mana-5
+                                    if stund==0:#checking if NPC is stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                        if cls=="1":
+                            print("---------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 1:
+                                    spln="quickslash"
+                                    spldmgl=2
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-1
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                            if cast=="2":
+                                if mana >=2:
+                                   spln="Shield bash"
+                                   spldmgl=2
+                                   spldmgh=4
+                                   spldmg=random.randint(spldmgl,spldmgh)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
+                                   mana=mana-2
+                                   if stund==1:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                       npchp=npchp-spldmg
+                                   else:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                       npchp=npchp-spldmg
+                                       npcdmg=random.randint(npcwepl,npcweph)
+                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                       hp=hp-npcdmg
+                        if cls=="3":
+                            print("---------------------------------------")
+                            print("You currently have",hp,"/",hpmax," HP.")
+                            print("What spell would you like to cast?")
+                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            if cast=="1":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloody Swipe"
+                                    spldmgl=3
+                                    spldmgh=18
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    print("NOT NUFF HP")
+                            if cast=="2":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloodpact"
+                                    spldmgl=0
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    if spldmg >= 3:
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
+                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                        npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                    if act1 == "4":
+                        clear()
+                        stats()#displays stats then lets player read before moving on
+                        pause=input("Press Enter to continue")
+                        clear()
+                
+                print("---------------------------------------")
+                npcloot=(loot())#rolling NPC LOOT
+                print("The ",npcn," falls to the floor dead!")
+                print("You loot ",npcloot,"silver pieces")
+                print("You gain ",npcxp,"XP!")
+                print("Do you continue deeper or leave for the town?")
+                print()
+                xp=npcxp+xp
+                coins=coins+npcloot
+                npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
+#START OF sirein FIGHT ROOM
+        if roomroll() == "sirein":
+            clear()
+            sirein()
+            print("The room ",roommod())
+            npchp=sirhp
+            npchpmax=sirhpmax
+            npcwepn="her claws"
+            npcn="Sirein"
+            npcweph=sirweph
+            npcwepl=sirwepl
+            npcxp=sirxp
+            stund=0
+            npcalive=1
+            #INPUT NPC ABOVE
+            while npcalive==1:
+                while npchp >0:
+                    if hp <=0:
+                        print("You have died!")
+                        gameover()
+                        pause=input()
+                        cont=-10
+                        break
+                    print("---------------------------------------")
+                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                    print("---------------------------------------")
+                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                    print("---------------------------------------")
+                    print("What would you like to do?")
+                    print()
+                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                    print()
+                    if act1 == "1":
+                        clear()
+                        dmg=random.randint(wepl,weph)
+                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                        npchp=npchp-dmg
+                        if stund==0:
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                            hp=hp-npcdmg
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="2":
+                        clear()
+                        print(charn,"Attempts to block!")
+                        if stund==0:
+                            blk=random.randint(blkl,blkm)
+                            print("The ",npcn," swings at you")
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            pbdm=npcdmg-blk
+                            if pbdm <=0:
+                                print("You block all of the attack!")
+                            else:
+                                print("You resist the attack taking",pbdm,"damage")
+                                hp=hp-pbdm
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="3":
+                        clear()
+                        if cls=="2":
+                            print("-------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 3:
+                                    spln="fireball"
+                                    spldmgl=1
+                                    spldmgh=10
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-3
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                            elif cast=="2":
+                                clear()
+                                if mana >= 5:
+                                    heall=2
+                                    healh=8
+                                    heala=random.randint(heall,healh)
+                                    if hp + heala > hpmax:
+                                        hp = hpmax
+                                    else:
+                                        hp = hp + heala
+                                    print("You restore ",heala,"HP.")
+                                    mana=mana-5
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                        if cls=="1":
+                            print("---------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 1:
+                                    spln="quickslash"
+                                    spldmgl=2
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-1
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                            if cast=="2":
+                                if mana >=2:
+                                   spln="Shield bash"
+                                   spldmgl=2
+                                   spldmgh=4
+                                   spldmg=random.randint(spldmgl,spldmgh)
+                                   stund=random.randint(0,1)
+                                   mana=mana-2
+                                   if stund==1:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                       npchp=npchp-spldmg
+                                   else:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                       npchp=npchp-spldmg
+                                       npcdmg=random.randint(npcwepl,npcweph)
+                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                       hp=hp-npcdmg
+                        if cls=="3":
+                            print("---------------------------------------")
+                            print("You currently have",hp,"/",hpmax," HP.")
+                            print("What spell would you like to cast?")
+                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            if cast=="1":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloody Swipe"
+                                    spldmgl=3
+                                    spldmgh=18
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    print("NOT NUFF HP")
+                            if cast=="2":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloodpact"
+                                    spldmgl=0
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    if spldmg >= 3:
+                                        hp=hp+10,hpmax
+                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                        npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                    if act1 == "4":
+                        clear()
+                        stats()
+                        pause=input("Press Enter to continue")
+                        clear()
+                print("---------------------------------------")
+                npcloot=(loot())
+                print("The ",npcn," falls to the floor dead!")
+                print("You loot ",npcloot,"silver pieces")
+                print("You gain ",npcxp,"XP!")
+                print("Do you continue deeper or leave for the town?")
+                print()
+                xp=npcxp+xp
+                coins=coins+npcloot
+                cont=input("1. Continue, 2. Leave")
+                npcalive=0
+#END OF sirein FIGHT ROOM
+#START OF mimic room
+        if roomroll()=="mimic":
+            roomcon=0
+            clear()
+            chest()
+            print("The room ",roommod())
+            chestvalue=(chestloot())#rolling the value in the chest
+            print()
+            chestopened=0
+            while roomcon==0:
+                act1=input("What do you do?\n1. Search the chest! 2. Stats \n3. Venture Deeper    4. Leave Dungeon")
+                if act1=="1":
+                            clear()
+                            mimic()
+                            npchp=mimichphp
+                            npchpmax=mimicmaxhphpmax
+                            npcwepn="snapping jaws"
+                            npcn="Mimic"
+                            npcweph=mimicweph
+                            npcwepl=mimicwepl
+                            npcxp=mimicxp
+                            stund=0
+                            npcalive=1
+                            mimicalive=1
+                            #INPUT NPC ABOVE
+                            while mimicalive==1:
+                                while npchp >0:
+                                    if hp <=0:
+                                        print("You have died!")
+                                        gameover()
+                                        pause=input()
+                                        cont=-10
+                                        break
+                                    print("---------------------------------------")
+                                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                                    print("---------------------------------------")
+                                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                                    print("---------------------------------------")
+                                    print("What would you like to do?")
+                                    print()
+                                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                                    print()
+                                    if act1 == "1":
+                                        clear()
+                                        dmg=random.randint(wepl,weph)
+                                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                                        npchp=npchp-dmg
+                                        if stund==0:
+                                            npcdmg=random.randint(npcwepl,npcweph)
+                                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                            hp=hp-npcdmg
+                                        if stund!=0:
+                                            print("The",npcn," is stunned for this turn!")
+                                            stund=stund-1
+                                    if act1 =="2":
+                                        clear()
+                                        print(charn,"Attempts to block!")
+                                        if stund==0:
+                                            blk=random.randint(blkl,blkm)
+                                            print("The ",npcn," swings at you")
+                                            npcdmg=random.randint(npcwepl,npcweph)
+                                            pbdm=npcdmg-blk
+                                            if pbdm <=0:
+                                                print("You block all of the attack!")
+                                            else:
+                                                print("You resist the attack taking",pbdm,"damage")
+                                                hp=hp-pbdm
+                                        if stund!=0:
+                                            print("The",npcn," is stunned for this turn!")
+                                            stund=stund-1
+                                    if act1 =="3":
+                                        clear()
+                                        if cls=="2":
+                                            print("-------------------------------------")
+                                            print("You currently have",mana,"/",manamax," Mana.")
+                                            print("What spell would you like to cast?")
+                                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                                            print("---------------------------------------")
+                                            cast=input()
+                                            clear()
+                                            if cast=="1":
+                                                if mana >= 3:
+                                                    spln="fireball"
+                                                    spldmgl=1
+                                                    spldmgh=10
+                                                    spldmg=random.randint(spldmgl,spldmgh)
+                                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                                    npchp=npchp-spldmg
+                                                    mana=mana-3
+                                                    if stund==0:
+                                                        npcdmg=random.randint(npcwepl,npcweph)
+                                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                                        hp=hp-npcdmg
+                                                    if stund!=0:
+                                                        print("The",npcn," is stunned for this turn!")
+                                                        stund=stund-1
+                                                else:
+                                                    nomana()
+                                            elif cast=="2":
+                                                clear()
+                                                if mana >= 5:
+                                                    heall=2
+                                                    healh=8
+                                                    heala=random.randint(heall,healh)
+                                                    if hp + heala > hpmax:
+                                                        hp = hpmax
+                                                    else:
+                                                        hp = hp + heala
+                                                    print("You restore ",heala,"HP.")
+                                                    mana=mana-5
+                                                    if stund==0:
+                                                        npcdmg=random.randint(npcwepl,npcweph)
+                                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                                        hp=hp-npcdmg
+                                                    if stund!=0:
+                                                        print("The",npcn," is stunned for this turn!")
+                                                        stund=stund-1
+                                                else:
+                                                    nomana()
+                                        if cls=="1":
+                                            print("---------------------------------------")
+                                            print("You currently have",mana,"/",manamax," Mana.")
+                                            print("What spell would you like to cast?")
+                                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                                            print("---------------------------------------")
+                                            cast=input()
+                                            clear()
+                                            if cast=="1":
+                                                if mana >= 1:
+                                                    spln="quickslash"
+                                                    spldmgl=2
+                                                    spldmgh=4
+                                                    spldmg=random.randint(spldmgl,spldmgh)
+                                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                                    npchp=npchp-spldmg
+                                                    mana=mana-1
+                                                    if stund==0:
+                                                        npcdmg=random.randint(npcwepl,npcweph)
+                                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                                        hp=hp-npcdmg
+                                                    if stund!=0:
+                                                        print("The",npcn," is stunned for this turn!")
+                                                        stund=stund-1
+                                            if cast=="2":
+                                                if mana >=2:
+                                                    spln="Shield bash"
+                                                    spldmgl=2
+                                                    spldmgh=4
+                                                    spldmg=random.randint(spldmgl,spldmgh)
+                                                    stund=random.randint(0,1)
+                                                    mana=mana-2
+                                                if stund==1:
+                                                    print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                                    npchp=npchp-spldmg
+                                                else:
+                                                    print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                                    npchp=npchp-spldmg
+                                                    npcdmg=random.randint(npcwepl,npcweph)
+                                                    print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                                    hp=hp-npcdmg
+                                        if cls=="3":
+                                            print("---------------------------------------")
+                                            print("You currently have",hp,"/",hpmax," HP.")
+                                            print("What spell would you like to cast?")
+                                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                                            print("---------------------------------------")
+                                            cast=input()
+                                            if cast=="1":
+                                                if hp>5:
+                                                    hp=hp-5
+                                                    spln="Bloody Swipe"
+                                                    spldmgl=3
+                                                    spldmgh=18
+                                                    spldmg=random.randint(spldmgl,spldmgh)
+                                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                                    npchp=npchp-spldmg
+                                                    if stund==0:
+                                                        npcdmg=random.randint(npcwepl,npcweph)
+                                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                                        hp=hp-npcdmg
+                                                    if stund!=0:
+                                                        print("The",npcn," is stunned for this turn!")
+                                                        stund=stund-1
+                                                else:
+                                                    print("NOT NUFF HP")
+                                            if cast=="2":
+                                                if hp>5:
+                                                    hp=hp-5
+                                                    spln="Bloodpact"
+                                                    spldmgl=0
+                                                    spldmgh=4
+                                                    spldmg=random.randint(spldmgl,spldmgh)
+                                                    if spldmg >= 3:
+                                                        hp=hp+10,hpmax
+                                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                                        npchp=npchp-spldmg
+                                                    if stund==0:
+                                                        npcdmg=random.randint(npcwepl,npcweph)
+                                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                                        hp=hp-npcdmg
+                                                    if stund!=0:
+                                                        print("The",npcn," is stunned for this turn!")
+                                                        stund=stund-1
+                                    if act1 == "4":
+                                        clear()
+                                        stats()
+                                        pause=input("Press Enter to continue")
+                                        clear()
+                                print("---------------------------------------")
+                                npcloot=(loot())
+                                print("The ",npcn," falls to the floor dead!")
+                                print("You loot ",npcloot,"silver pieces")
+                                print("You gain ",npcxp,"XP!")
+                                print("Do you continue deeper or leave for the town?")
+                                print()
+                                xp=npcxp+xp
+                                coins=coins+npcloot
+                                cont=input("1. Continue, 2. Leave")
+                                mimicalive=0
+                if act1=="2":
+                    clear()
+                    stats()#displays stats as before
+                if act1=="3":
+                    print("You venture deeper into the cave!")
+                    roomcon=1#lets you leave the room
+                    cont="1"
+                if act1=="4":
+                    print("You make your way out of the cave back to town")
+                    roomcon=1#lets you leave the room
+                    cont="2"
+#START OF chest room
+        if roomroll()=="chest":
+            roomcon=0
+            clear()
+            chest()
+            print("The room ",roommod())
+            chestvalue=(chestloot())#rolling the value in the chest
+            print()
+            chestopened=0
+            while roomcon==0:
+                act1=input("What do you do?\n1. Search the chest! 2. Stats \n3. Venture Deeper    4. Leave Dungeon")
+                if act1=="1":
+                    if chestopened==0:
+                        clear()#if the chest wasnt already openned letting you open and loot it
+                        print("You search the chest and find",chestvalue,"coins!")
+                        coins=coins+chestvalue
+                        chestopened=1#setting the chest to opened
+                    else:
+                        clear()
+                        print("You have already looted this chest")#if you try to search an opened chest
+                if act1=="2":
+                    clear()
+                    stats()#displays stats as before
+                if act1=="3":
+                    print("You venture deeper into the cave!")
+                    roomcon=1#lets you leave the room
+                    cont="1"
+                if act1=="4":
+                    print("You make your way out of the cave back to town")
+                    roomcon=1#lets you leave the room
+                    cont="2"
+#start of lich room
+        if roomroll() == "lich":   
+            clear()
+            lich()
+            print("The room ",roommod())
+            npchp=lichhp
+            npchpmax=lichhpmax
+            npcwepn="Rotting wand"
+            npcn="Undead Lich"
+            npcweph=lichweph
+            npcwepl=lichwepl
+            npcxp=lichxp
+            stund=0
+            npcalive=1
+            #INPUT NPC ABOVE
+            while npcalive==1:
+                while npchp >0:
+                    if hp <=0: #struggled to get this death to function
+                        print("You have died!")
+                        gameover()
+                        pause=input()
+                        cont=-10
+                        break
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
+                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                    print("---------------------------------------")#shows the npc and your character stats
+                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                    print("---------------------------------------")
+                    print("What would you like to do?")
+                    print()
+                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                    print()
+                    if act1 == "1":
+                        clear()
+                        dmg=random.randint(wepl,weph)#rolling damage values
+                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                        npchp=npchp-dmg
+                        if stund==0:#checking if NPC is stunned
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                            hp=hp-npcdmg
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="2":
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
+                            blk=random.randint(blkl,blkm)
+                            print("The ",npcn," swings at you")
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            pbdm=npcdmg-blk
+                            if pbdm <=0:
+                                print("You block all of the attack!")
+                            else:
+                                print("You resist the attack taking",pbdm,"damage")
+                                hp=hp-pbdm
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
+                        clear()
+                        if cls=="2":
+                            print("-------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 3:# cost of spell
+                                    spln="fireball"
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()#NOT NUFF MANA NERD
+                            elif cast=="2":
+                                clear()
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
+                                        hp = hpmax
+                                    else:
+                                        hp = hp + heala
+                                    print("You restore ",heala,"HP.")
+                                    mana=mana-5
+                                    if stund==0:#checking if NPC is stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                        if cls=="1":
+                            print("---------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 1:
+                                    spln="quickslash"
+                                    spldmgl=2
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-1
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                            if cast=="2":
+                                if mana >=2:
+                                   spln="Shield bash"
+                                   spldmgl=2
+                                   spldmgh=4
+                                   spldmg=random.randint(spldmgl,spldmgh)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
+                                   mana=mana-2
+                                   if stund==1:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                       npchp=npchp-spldmg
+                                   else:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                       npchp=npchp-spldmg
+                                       npcdmg=random.randint(npcwepl,npcweph)
+                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                       hp=hp-npcdmg
+                        if cls=="3":
+                            print("---------------------------------------")
+                            print("You currently have",hp,"/",hpmax," HP.")
+                            print("What spell would you like to cast?")
+                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            if cast=="1":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloody Swipe"
+                                    spldmgl=3
+                                    spldmgh=18
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    print("NOT NUFF HP")
+                            if cast=="2":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloodpact"
+                                    spldmgl=0
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    if spldmg >= 3:
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
+                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                        npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                    if act1 == "4":
+                        clear()
+                        stats()#displays stats then lets player read before moving on
+                        pause=input("Press Enter to continue")
+                        clear()
+                
+                print("---------------------------------------")
+                npcloot=(loot())#rolling NPC LOOT
+                print("The ",npcn," falls to the floor dead!")
+                print("You loot ",npcloot,"silver pieces")
+                print("You gain ",npcxp,"XP!")
+                print("Do you continue deeper or leave for the town?")
+                print()
+                xp=npcxp+xp
+                coins=coins+npcloot
+                npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
+#start of lich room
+        if roomroll() == "lich":   
+            clear()
+            lich()
+            print("The room ",roommod())
+            npchp=lichhp
+            npchpmax=lichhpmax
+            npcwepn="Rotting wand"
+            npcn="Undead Lich"
+            npcweph=lichweph
+            npcwepl=lichwepl
+            npcxp=lichxp
+            stund=0
+            npcalive=1
+            #INPUT NPC ABOVE
+            while npcalive==1:
+                while npchp >0:
+                    if hp <=0: #struggled to get this death to function
+                        print("You have died!")
+                        gameover()
+                        pause=input()
+                        cont=-10
+                        break
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
+                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                    print("---------------------------------------")#shows the npc and your character stats
+                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                    print("---------------------------------------")
+                    print("What would you like to do?")
+                    print()
+                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                    print()
+                    if act1 == "1":
+                        clear()
+                        dmg=random.randint(wepl,weph)#rolling damage values
+                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                        npchp=npchp-dmg
+                        if stund==0:#checking if NPC is stunned
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                            hp=hp-npcdmg
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="2":
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
+                            blk=random.randint(blkl,blkm)
+                            print("The ",npcn," swings at you")
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            pbdm=npcdmg-blk
+                            if pbdm <=0:
+                                print("You block all of the attack!")
+                            else:
+                                print("You resist the attack taking",pbdm,"damage")
+                                hp=hp-pbdm
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
+                        clear()
+                        if cls=="2":
+                            print("-------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 3:# cost of spell
+                                    spln="fireball"
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()#NOT NUFF MANA NERD
+                            elif cast=="2":
+                                clear()
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
+                                        hp = hpmax
+                                    else:
+                                        hp = hp + heala
+                                    print("You restore ",heala,"HP.")
+                                    mana=mana-5
+                                    if stund==0:#checking if NPC is stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                        if cls=="1":
+                            print("---------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 1:
+                                    spln="quickslash"
+                                    spldmgl=2
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-1
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                            if cast=="2":
+                                if mana >=2:
+                                   spln="Shield bash"
+                                   spldmgl=2
+                                   spldmgh=4
+                                   spldmg=random.randint(spldmgl,spldmgh)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
+                                   mana=mana-2
+                                   if stund==1:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                       npchp=npchp-spldmg
+                                   else:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                       npchp=npchp-spldmg
+                                       npcdmg=random.randint(npcwepl,npcweph)
+                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                       hp=hp-npcdmg
+                        if cls=="3":
+                            print("---------------------------------------")
+                            print("You currently have",hp,"/",hpmax," HP.")
+                            print("What spell would you like to cast?")
+                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            if cast=="1":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloody Swipe"
+                                    spldmgl=3
+                                    spldmgh=18
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    print("NOT NUFF HP")
+                            if cast=="2":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloodpact"
+                                    spldmgl=0
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    if spldmg >= 3:
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
+                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                        npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                    if act1 == "4":
+                        clear()
+                        stats()#displays stats then lets player read before moving on
+                        pause=input("Press Enter to continue")
+                        clear()
+                
+                print("---------------------------------------")
+                npcloot=(loot())#rolling NPC LOOT
+                print("The ",npcn," falls to the floor dead!")
+                print("You loot ",npcloot,"silver pieces")
+                print("You gain ",npcxp,"XP!")
+                print("Do you continue deeper or leave for the town?")
+                print()
+                xp=npcxp+xp
+                coins=coins+npcloot
+                npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
+#start of lich room
+        if roomroll() == "lich":   
+            clear()
+            lich()
+            print("The room ",roommod())
+            npchp=lichhp
+            npchpmax=lichhpmax
+            npcwepn="Rotting wand"
+            npcn="Undead Lich"
+            npcweph=lichweph
+            npcwepl=lichwepl
+            npcxp=lichxp
+            stund=0
+            npcalive=1
+            #INPUT NPC ABOVE
+            while npcalive==1:
+                while npchp >0:
+                    if hp <=0: #struggled to get this death to function
+                        print("You have died!")
+                        gameover()
+                        pause=input()
+                        cont=-10
+                        break
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
+                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                    print("---------------------------------------")#shows the npc and your character stats
+                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                    print("---------------------------------------")
+                    print("What would you like to do?")
+                    print()
+                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                    print()
+                    if act1 == "1":
+                        clear()
+                        dmg=random.randint(wepl,weph)#rolling damage values
+                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                        npchp=npchp-dmg
+                        if stund==0:#checking if NPC is stunned
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                            hp=hp-npcdmg
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="2":
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
+                            blk=random.randint(blkl,blkm)
+                            print("The ",npcn," swings at you")
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            pbdm=npcdmg-blk
+                            if pbdm <=0:
+                                print("You block all of the attack!")
+                            else:
+                                print("You resist the attack taking",pbdm,"damage")
+                                hp=hp-pbdm
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
+                        clear()
+                        if cls=="2":
+                            print("-------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 3:# cost of spell
+                                    spln="fireball"
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()#NOT NUFF MANA NERD
+                            elif cast=="2":
+                                clear()
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
+                                        hp = hpmax
+                                    else:
+                                        hp = hp + heala
+                                    print("You restore ",heala,"HP.")
+                                    mana=mana-5
+                                    if stund==0:#checking if NPC is stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                        if cls=="1":
+                            print("---------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 1:
+                                    spln="quickslash"
+                                    spldmgl=2
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-1
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                            if cast=="2":
+                                if mana >=2:
+                                   spln="Shield bash"
+                                   spldmgl=2
+                                   spldmgh=4
+                                   spldmg=random.randint(spldmgl,spldmgh)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
+                                   mana=mana-2
+                                   if stund==1:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                       npchp=npchp-spldmg
+                                   else:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                       npchp=npchp-spldmg
+                                       npcdmg=random.randint(npcwepl,npcweph)
+                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                       hp=hp-npcdmg
+                        if cls=="3":
+                            print("---------------------------------------")
+                            print("You currently have",hp,"/",hpmax," HP.")
+                            print("What spell would you like to cast?")
+                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            if cast=="1":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloody Swipe"
+                                    spldmgl=3
+                                    spldmgh=18
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    print("NOT NUFF HP")
+                            if cast=="2":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloodpact"
+                                    spldmgl=0
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    if spldmg >= 3:
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
+                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                        npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                    if act1 == "4":
+                        clear()
+                        stats()#displays stats then lets player read before moving on
+                        pause=input("Press Enter to continue")
+                        clear()
+                
+                print("---------------------------------------")
+                npcloot=(loot())#rolling NPC LOOT
+                print("The ",npcn," falls to the floor dead!")
+                print("You loot ",npcloot,"silver pieces")
+                print("You gain ",npcxp,"XP!")
+                print("Do you continue deeper or leave for the town?")
+                print()
+                xp=npcxp+xp
+                coins=coins+npcloot
+                npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
+#start of lich room
+        if roomroll() == "lich":   
+            clear()
+            lich()
+            print("The room ",roommod())
+            npchp=lichhp
+            npchpmax=lichhpmax
+            npcwepn="Rotting wand"
+            npcn="Undead Lich"
+            npcweph=lichweph
+            npcwepl=lichwepl
+            npcxp=lichxp
+            stund=0
+            npcalive=1
+            #INPUT NPC ABOVE
+            while npcalive==1:
+                while npchp >0:
+                    if hp <=0: #struggled to get this death to function
+                        print("You have died!")
+                        gameover()
+                        pause=input()
+                        cont=-10
+                        break
+                    print("---------------------------------------")#basic hud to be displayed on EVERY page
+                    print(npcn,":\n HP",npchp,"/",npchpmax," DMG",npcwepl,"-",npcweph,)
+                    print("---------------------------------------")#shows the npc and your character stats
+                    print(charn,clsn,":\n HP",hp,"/",hpmax," DMG",wepl,"-",weph,)
+                    print("---------------------------------------")
+                    print("What would you like to do?")
+                    print()
+                    act1=input("1. Attack 2. Block\n3. Spell  4. Stats ")
+                    print()
+                    if act1 == "1":
+                        clear()
+                        dmg=random.randint(wepl,weph)#rolling damage values
+                        print("You swing your ",wepn," striking the ",npcn," for ",dmg)
+                        npchp=npchp-dmg
+                        if stund==0:#checking if NPC is stunned
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                            hp=hp-npcdmg
+                        if stund!=0:#NPC can be stunned for multiple turns so this is needed
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="2":
+                        clear()#currently blocking which is this selection HAS NO benifit will be adding a 
+                        print(charn,"Attempts to block!")#parry damage in future maybe like 1d4 although idle doesnt
+                        if stund==0:#support the 1d4 and ill have to make another list.
+                            blk=random.randint(blkl,blkm)
+                            print("The ",npcn," swings at you")
+                            npcdmg=random.randint(npcwepl,npcweph)
+                            pbdm=npcdmg-blk
+                            if pbdm <=0:
+                                print("You block all of the attack!")
+                            else:
+                                print("You resist the attack taking",pbdm,"damage")
+                                hp=hp-pbdm
+                        if stund!=0:
+                            print("The",npcn," is stunned for this turn!")
+                            stund=stund-1
+                    if act1 =="3":#spells each spell depends on class and barbarian uses HP instead of MANA
+                        clear()
+                        if cls=="2":
+                            print("-------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. Fireball:\n   DMG: 1-10             Cost:3 Mana\n2. Heal:\n   HP+: 2-8              Cost:5 Mana \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 3:# cost of spell
+                                    spln="fireball"
+                                    spldmgl=1 #converting spell into basic values so I can copy paste if I 
+                                    spldmgh=10 #wanted to add more then 1 spell per char
+                                    spldmg=random.randint(spldmgl,spldmgh) #rolling spell damage
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg#NPC HP - spell
+                                    mana=mana-3#subtracting mana
+                                    if stund==0: #letting the NPC hit back if they are not stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()#NOT NUFF MANA NERD
+                            elif cast=="2":
+                                clear()
+                                if mana >= 5:#healing spell cost
+                                    heall=2#healing spell min
+                                    healh=8#healing spell max
+                                    heala=random.randint(heall,healh)#rolling heal value
+                                    if hp + heala > hpmax:#checking for OVER heal
+                                        hp = hpmax
+                                    else:
+                                        hp = hp + heala
+                                    print("You restore ",heala,"HP.")
+                                    mana=mana-5
+                                    if stund==0:#checking if NPC is stunned
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    nomana()
+                        if cls=="1":
+                            print("---------------------------------------")
+                            print("You currently have",mana,"/",manamax," Mana.")
+                            print("What spell would you like to cast?")
+                            print("1. QuickSlash:\n   DMG: 2-4                Cost:1 Mana\n2. Shield Bash:\n   DMG: 1-4 50%StunChance  Cost:2 Mana\n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            clear()
+                            if cast=="1":
+                                if mana >= 1:
+                                    spln="quickslash"
+                                    spldmgl=2
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    mana=mana-1
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                            if cast=="2":
+                                if mana >=2:
+                                   spln="Shield bash"
+                                   spldmgl=2
+                                   spldmgh=4
+                                   spldmg=random.randint(spldmgl,spldmgh)
+                                   stund=random.randint(0,1)#stun roll for the shield bash skill
+                                   mana=mana-2
+                                   if stund==1:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and stunned them!")
+                                       npchp=npchp-spldmg
+                                   else:
+                                       print("You ",spln," the",npcn,"for",spldmg,"and failed to stun them!")
+                                       npchp=npchp-spldmg
+                                       npcdmg=random.randint(npcwepl,npcweph)
+                                       print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                       hp=hp-npcdmg
+                        if cls=="3":
+                            print("---------------------------------------")
+                            print("You currently have",hp,"/",hpmax," HP.")
+                            print("What spell would you like to cast?")
+                            print("1. Bloody Swipe:\n   DMG:3-18                  Cost:5 HP \n2. Bloodpact:\n   DMG: 0-4 (IF DMG>=3 HP+10)Cost:5 HP \n3. Back")
+                            print("---------------------------------------")
+                            cast=input()
+                            if cast=="1":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloody Swipe"
+                                    spldmgl=3
+                                    spldmgh=18
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                    npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                                else:
+                                    print("NOT NUFF HP")
+                            if cast=="2":
+                                if hp>5:
+                                    hp=hp-5
+                                    spln="Bloodpact"
+                                    spldmgl=0
+                                    spldmgh=4
+                                    spldmg=random.randint(spldmgl,spldmgh)
+                                    if spldmg >= 3:
+                                        hp=hp+10,hpmax#this spell heals if the spell does enough damage
+                                        print("You cast ",spln," hitting the",npcn,"for",spldmg,)
+                                        npchp=npchp-spldmg
+                                    if stund==0:
+                                        npcdmg=random.randint(npcwepl,npcweph)
+                                        print("The ",npcn," swings their ",npcwepn," striking you for",npcdmg)
+                                        hp=hp-npcdmg
+                                    if stund!=0:
+                                        print("The",npcn," is stunned for this turn!")
+                                        stund=stund-1
+                    if act1 == "4":
+                        clear()
+                        stats()#displays stats then lets player read before moving on
+                        pause=input("Press Enter to continue")
+                        clear()
+                
+                print("---------------------------------------")
+                npcloot=(loot())#rolling NPC LOOT
+                print("The ",npcn," falls to the floor dead!")
+                print("You loot ",npcloot,"silver pieces")
+                print("You gain ",npcxp,"XP!")
+                print("Do you continue deeper or leave for the town?")
+                print()
+                xp=npcxp+xp
+                coins=coins+npcloot
+                npcalive=0
+                cont=input("1. Continue, 2. Leave")#asking if player wants to continue.
+                while cont!="1" and cont!="2":
+                    print("Invalid Selection.")
+                    print("Do you continue deeper or leave for the town?")
+                    cont=input("1.Continue, 2. Leave")
 #start of lich room
         if roomroll() == "lich":   
             clear()
