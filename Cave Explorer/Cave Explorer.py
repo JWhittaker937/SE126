@@ -2,6 +2,7 @@ import random
 import sys
 import time
 import csv
+import os
 from os import system,name
 def clear():
     if name=="nt":
@@ -36,20 +37,52 @@ roomlvl=10 #room level value
 costitem1=30 #cost of item 1
 costitem2=40 #cost of item 2
 costitem3=50 #cost of item 3
-roomhistory=[]
-characterjournal=[]
+playerdata=[charn,cls,xp,xpmax,hp,hpmax,mana,manamax,roomlvl,coins,costitem1,costitem2,costitem3,weph,clsn,lvl]
 #Defs BELOW
-#SAVE FILE HERE have to learn how to search if a file is already made.
-def create_save_file():
-    with open("save_data.csv", "w", newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(["charn", "cls", "xp", "xpmax", "hp", "hpmax", "mana", "manamax", "roomlvl", "coins", "costitem1", "costitem2", "costitem3", "weph", "clsn"])
-        writer.writerow([charn, cls, xp, xpmax, hp, hpmax, mana, manamax, roomlvl, coins, costitem1, costitem2, costitem3, weph, clsn])
-def update_save_file():
-    with open("save_data.csv", "a", newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([charn, cls, xp, xpmax, hp, hpmax, mana, manamax, roomlvl, coins, costitem1, costitem2, costitem3, weph, clsn])
-#I AM TRYING TO LEARN THIS SECTION    
+#THis took HOURS OF MY LIFE TO MAKE THIS DANG THING LOAD THE BLOODY FILE I SWEAR I LOST HALF MY HAIR
+def checksavefile():
+  savefile = "savedata.csv"
+  if not os.path.exists(savefile):
+    defaultdata = [["CharName", "Class", "Xp", "XPmax", "hp", "hpmax", "mana", "manamax", "roomlvl", "coins", "costitem1", "costitem2", "costitem3", "weph", "clsn","lvl","wepn"]]
+    with open(savefile, "w", newline="") as csvfile:
+      csv_writer = csv.writer(csvfile)
+      csv_writer.writerows(defaultdata)
+def savegame(savedata, saveslotnumber):
+    savefile="savedata.csv"
+    try:
+        with open(savefile, "r", newline="") as csvfile:
+            reader = csv.reader(csvfile)
+            savedata = list(reader)
+        if saveslotnumber >= len(savedata):
+            savedata.append(playerdata)
+        else:
+            savedata[saveslotnumber] = playerdata
+        with open(savefile, "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(savedata)
+    except:
+        print("Error")
+def saveplayer():
+    saveslot = int(input("Choose a save slot (1, 2, 3): "))
+    savegame(playerdata, saveslot - 1)
+def displaysaveslots(savedata):
+    print("Available save slots:")
+    for i, save in enumerate(savedata):
+        print(f"{i+1}| Name: {save[0]:10} Class: {save[14]:10}| Lvl {save[15]:2}")
+def readsavedata():
+    try:
+        with open("savedata.csv", "r", newline="") as f:
+            reader = csv.reader(f)
+            save_data = list(reader)
+            return save_data
+    except FileNotFoundError:
+        print("MASSIVE ERROR")
+def loadgamesave(saveslot):
+    savedata = readsavedata()
+    if 0 <= saveslot < len(savedata):
+        playerdata = savedata[saveslot]
+        return playerdata
+#I AM TRYING TO LEARN THIS SECTION   
 def nomana():
     print("You do not have enough mana to cast this spell")
 def gameover():#originally I typed this out everytime man that saved like 200 lines
@@ -169,7 +202,7 @@ giantratweph=2
 giantratxp=30
 #mimic
 mimichp=30
-mimicmaxhp=30
+mimichpmax=30
 mimicwepl=0
 mimicweph=6
 mimicxp=75
@@ -351,7 +384,7 @@ print("--------------------")
 print("--BY----------------")
 print("--JARED--WHITTAKER--")
 print("--------------------")
-create_save_file()
+checksavefile()
 loadgame=input()
 clear()
 if loadgame=="69":
@@ -395,37 +428,27 @@ if loadgame=="katie":
     search=2
     sense="Looked at the code."
 if loadgame=="2":
-    with open("save_data.csv", "r") as f:
-        reader = csv.reader(f)
-        for row in reader:
-            charn = row[0]
-            cls = row[1]
-            xp = row[2]
-            xpmax = row[3]
-            hp = row[4]
-            hpmax = row[5]
-            mana = row[6]
-            manamax = row[7]
-            roomlvl = row[8]
-            coins = row[9]
-            costitem1 = row[10]
-            costitem2 = row[11]
-            costitem3 = row[12]
-            weph = row[13]
-            clsn = row[14]
-        xp=int(xp)
-        xp = int(xp)
-        xpmax = int(xpmax)
-        hp = int(hp)
-        hpmax = int(hpmax)
-        mana = int(mana)
-        manamax = int(manamax)
-        roomlvl = int(roomlvl)
-        coins = int(coins)
-        costitem1 = int(costitem1)
-        costitem2 = int(costitem2)
-        costitem3 = int(costitem3)
-        weph = int(weph)
+    savedata = readsavedata()
+    displaysaveslots(savedata)
+    selectedslot=int(input("What save slot would you like to select?"))
+    playerdata=loadgamesave(selectedslot-1)
+    charn=(playerdata[0])
+    cls=(playerdata[1])
+    xp=int(playerdata[2])
+    xpmax=int(playerdata[3])
+    hp=int(playerdata[4])
+    hpmax=int(playerdata[5])
+    mana=int(playerdata[6])
+    manamax=int(playerdata[7])
+    roomlvl=int(playerdata[8])
+    coins=int(playerdata[9])
+    costitem1=int(playerdata[10])
+    costitem2=int(playerdata[11])
+    costitem3=int(playerdata[12])
+    weph=int(playerdata[13])
+    clsn=(playerdata[14])
+    lvl=int(playerdata[15])
+    wepn=(playerdata[16])
 elif loadgame=="1":
     charn=input("What is your character's name? ")
     print("Select your class!")
@@ -575,9 +598,8 @@ while gameon=="1":
         if towncon=="4":
             cont=-10
             gameover()
-            print("Saving game")
-            update_save_file()
-            pause=input("Press Enter to continue")
+            playerdata=[charn, cls, xp, xpmax, hp, hpmax, mana, manamax, roomlvl, coins, costitem1, costitem2, costitem3, weph, clsn ,lvl, wepn]
+            saveplayer()
             clear()
             gameon="2"
     while cont=="1":
@@ -1999,8 +2021,8 @@ while gameon=="1":
                 if act1=="1":
                             clear()
                             mimic()
-                            npchp=mimichphp
-                            npchpmax=mimicmaxhphpmax
+                            npchp=mimichp
+                            npchpmax=mimichpmax
                             npcwepn="snapping jaws"
                             npcn="Mimic"
                             npcweph=mimicweph
@@ -2204,6 +2226,7 @@ while gameon=="1":
                                 coins=coins+npcloot
                                 cont=input("1. Continue, 2. Leave")
                                 mimicalive=0
+                                npcalive=0
                 if act1=="2":
                     clear()
                     stats()#displays stats as before
