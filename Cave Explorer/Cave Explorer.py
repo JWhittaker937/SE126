@@ -258,7 +258,7 @@ def mimic():
 def succubus():
     print("The room is heavy with the scent of a heavenly perfume.")
     print("You hear a loud whip crack and a demonic form walks toward you beautiful execpt for the teeth which drip blood.")
-def spider()
+def spider():
     print("The sound of many legs on the cold floor fill you with dread.")
     print("The hairs on your neck stand up as you see the eight glowing eyes moving swiftly toward you.")
 #room generation remember the room level sets the max it can roll and the room level changes as the char levels
