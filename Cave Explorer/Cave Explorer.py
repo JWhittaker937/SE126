@@ -38,6 +38,13 @@ costitem1=30 #cost of item 1
 costitem2=40 #cost of item 2
 costitem3=50 #cost of item 3
 playerdata=[charn,cls,xp,xpmax,hp,hpmax,mana,manamax,roomlvl,coins,costitem1,costitem2,costitem3,weph,clsn,lvl]
+questprogress=0
+questrequirement=0
+roomcounterquest=0
+roomcounter=0
+questcounter=0
+score=0
+bank=0
 #Defs BELOW
 #THis took HOURS OF MY LIFE TO MAKE THIS DANG THING LOAD THE BLOODY FILE I SWEAR I LOST HALF MY HAIR
 def checksavefile():
@@ -152,66 +159,77 @@ gobhpmax=10 #gob max hp
 gobwepl=0 #lowest goblin can hit
 gobweph=2 #highest goblin can hit
 gobxp=10 #xp awarded when goblin is slain
+goblinkilled=0
 #Orc
 orchp=20
 orchpmax=20
 orcwepl=0
 orcweph=5
 orcxp=25
+orckilled=0
 #Siren
 sirhp=35
 sirhpmax=35
 sirwepl=1
 sirweph=5
 sirxp=50
+sireinkilled=0
 #babyDragon
 draghp=100
 draghpmax=100
 dragwepl=0
 dragweph=15
 dragxp=250
+dragonkilled=0
 #SkeletonWarrior
 skelhp=15
 skelhpmax=15
 skelwepl=0
 skelweph=5
 skelxp=15
+skeletonkilled=0
 #Lich
 lichhp=75
 lichhpmax=75
 lichwepl=2
 lichweph=8
 lichxp=300
+lichkilled=0
 #Rat
 rathp=5
 rathpmax=5
 ratwepl=0
 ratweph=2
 ratxp=5
+ratkilled=0
 #Spider
 spiderhp=3
 spiderhpmax=3
 spiderwepl=1
 spiderweph=3
 spiderxp=5
+spiderkilled=0
 #giantrat
 giantrathp=40
 giantratmaxhp=40
 giantratwepl=0
 giantratweph=2
 giantratxp=30
+giantratkilled=0
 #mimic
 mimichp=30
 mimichpmax=30
 mimicwepl=0
 mimicweph=6
 mimicxp=75
+mimickilled=0
 #succubus
 succubushp=100
 succubushpmax=100
 succubuswepl=0
 succubusweph=6
 succubusxp=69
+succubuskilled=0
 #TRAP detection
 trapl=0 #lowest value the trap can roll for how well it is hidden
 traph=5 #highest value the trap can roll for its hidden stat
