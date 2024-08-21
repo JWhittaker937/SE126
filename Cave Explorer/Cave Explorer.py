@@ -258,32 +258,35 @@ def mimic():
 def succubus():
     print("The room is heavy with the scent of a heavenly perfume.")
     print("You hear a loud whip crack and a demonic form walks toward you beautiful execpt for the teeth which drip blood.")
+def spider()
+    print("The sound of many legs on the cold floor fill you with dread.")
+    print("The hairs on your neck stand up as you see the eight glowing eyes moving swiftly toward you.")
 #room generation remember the room level sets the max it can roll and the room level changes as the char levels
-#current allowed rooms empty | chest | goblin | orc | skeletonw | trap | dragon | lich | sirein | giantrat | rat | spider | mimic |
+#current allowed rooms empty | chest | goblin | orc | skeletonw | trap | dragon | lich | sirein | giantrat | rat | spider | mimic | succubus
 roomtable = {
     0:"empty",
     1:"empty",
     2:"chest",
     3:"rat",
     4:"goblin",
-    5:"goblin",
+    5:"spider",
     6:"goblin",
     7:"rat",
-    8:"rat",
+    8:"goblin",
     9:"skeletonw",
     10:"trap",
     11:"goblin",
     12:"trap",
     13:"orc",
-    14:"giantrat",
-    15:"rat",
+    14:"orc",
+    15:"goblin",
     16:"mimic",
     17:"skeletonw",
     18:"skeletonw",
     19:"sirien",
     20:"chest",
     21:"skeletonw",
-    22:"skeletonw",
+    22:"giantrat",
     23:"skeletonw",
     24:"skeletonw",
     25:"lich",
@@ -2269,18 +2272,18 @@ while gameon=="1":
                     print("You make your way out of the cave back to town")
                     roomcon=1#lets you leave the room
                     cont="2"
-#start of lich room
-        if roomroll() == "lich":   
+#start of Giant Rat room room
+        if roomroll() == "giantrat":   
             clear()
-            lich()
+            giantrat()
             print("The room ",roommod())
-            npchp=lichhp
-            npchpmax=lichhpmax
-            npcwepn="Rotting wand"
-            npcn="Undead Lich"
-            npcweph=lichweph
-            npcwepl=lichwepl
-            npcxp=lichxp
+            npchp=giantrat
+            npchpmax=giantratmaxhp
+            npcwepn="Gnawing Fangs"
+            npcn="Giant Rat"
+            npcweph=giantratweph
+            npcwepl=giantratwepl
+            npcxp=giantratxp
             stund=0
             npcalive=1
             #INPUT NPC ABOVE
@@ -2483,18 +2486,19 @@ while gameon=="1":
                     print("Invalid Selection.")
                     print("Do you continue deeper or leave for the town?")
                     cont=input("1.Continue, 2. Leave")
-#start of lich room
-        if roomroll() == "lich":   
+#END OF GIANT RAT ROOM
+#start of rat room room
+        if roomroll() == "rat":   
             clear()
-            lich()
+            rat()
             print("The room ",roommod())
-            npchp=lichhp
-            npchpmax=lichhpmax
-            npcwepn="Rotting wand"
-            npcn="Undead Lich"
-            npcweph=lichweph
-            npcwepl=lichwepl
-            npcxp=lichxp
+            npchp=rathp
+            npchpmax=rathpmax
+            npcwepn="Tiny Teeth"
+            npcn="Small Rat"
+            npcweph=ratweph
+            npcwepl=ratwepl
+            npcxp=ratxp
             stund=0
             npcalive=1
             #INPUT NPC ABOVE
@@ -2697,18 +2701,18 @@ while gameon=="1":
                     print("Invalid Selection.")
                     print("Do you continue deeper or leave for the town?")
                     cont=input("1.Continue, 2. Leave")
-#start of lich room
-        if roomroll() == "lich":   
+#start of succubus room
+        if roomroll() == "succubus":   
             clear()
-            lich()
+            succubus()
             print("The room ",roommod())
-            npchp=lichhp
-            npchpmax=lichhpmax
-            npcwepn="Rotting wand"
-            npcn="Undead Lich"
-            npcweph=lichweph
-            npcwepl=lichwepl
-            npcxp=lichxp
+            npchp=succubushp
+            npchpmax=succubushpmax
+            npcwepn="Leather Whip"
+            npcn="Succubus"
+            npcweph=succubusweph
+            npcwepl=succubuswepl
+            npcxp=succubusxp
             stund=0
             npcalive=1
             #INPUT NPC ABOVE
@@ -2911,18 +2915,18 @@ while gameon=="1":
                     print("Invalid Selection.")
                     print("Do you continue deeper or leave for the town?")
                     cont=input("1.Continue, 2. Leave")
-#start of lich room
-        if roomroll() == "lich":   
+#start of spider room
+        if roomroll() == "spider":   
             clear()
-            lich()
+            spider()
             print("The room ",roommod())
-            npchp=lichhp
-            npchpmax=lichhpmax
-            npcwepn="Rotting wand"
-            npcn="Undead Lich"
-            npcweph=lichweph
-            npcwepl=lichwepl
-            npcxp=lichxp
+            npchp=spiderhp
+            npchpmax=spiderhpmax
+            npcwepn="Dripping fangs"
+            npcn="Huge Spider"
+            npcweph=spiderweph
+            npcwepl=spiderwepl
+            npcxp=spiderxp
             stund=0
             npcalive=1
             #INPUT NPC ABOVE
