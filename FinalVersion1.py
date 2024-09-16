@@ -45,7 +45,7 @@ def addproperty():
     global nextid  #never had to declare something as global before it was a pain to understand. Def could have used that in cave explorer v.1
     idnumber=nextid
     nextid+=1#creating an id number this would be far more complex as the program gets developed but right now this ensures that
-    #there are no duplicate id numbers
+    #there are no duplicate id numbers this does not consider the built in properties and will need to be changed.
     newproperty=property(idnumber, address, price, description)
     properties[idnumber] = newproperty
     print("Property added successfully!")
@@ -106,7 +106,7 @@ def listpropertiesbyid():# a sorting function and page display. This sorts and l
 def mainmenu():
     running=True
     while running==True: 
-        print("      Main Menu")
+        print("        Main Menu")
         print("==========================")
         print("1. Search for properties")
         print("2. Import from CSV")
